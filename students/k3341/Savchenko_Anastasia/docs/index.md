@@ -1,20 +1,13 @@
-# Welcome to MkDocs
+# 📚 Отчёты по лабораторным работам
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+**Дисциплина:** Web-программирование  
+**Поток:** WEB 2.3  
+**Студент:** Савченко Анастасия Сергеевна  
 
-## Commands
+---
+Выберите работу в меню слева или из списка ниже:
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
-
-
-I love all :material-penguin: in the world :penguin:
+### 🐧 [Лабораторная работа 1](laboratory_work_1.md)
+### 🐣 [Лабораторная работа 2](laboratory_work_2.md)
+### 🥚 [Лабораторная работа 3](laboratory_work_3.md)
+### 🥚 [Лабораторная работа 4](laboratory_work_4.md)
