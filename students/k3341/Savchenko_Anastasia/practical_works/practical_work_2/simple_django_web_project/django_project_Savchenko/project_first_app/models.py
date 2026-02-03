@@ -27,7 +27,7 @@ class Car(models.Model):
         CarOwner,
         through='Ownership',
         through_fields=('id_car', 'id_owner'),
-        related_name='cars'
+        related_name='owned_cars'
     )
 
     def __str__(self):
@@ -78,7 +78,7 @@ class DriversLicense(models.Model):
     ]
 
     id_license = models.AutoField(primary_key=True)
-    id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE)
+    id_owner = models.ForeignKey(CarOwner, on_delete=models.CASCADE, related_name='licenses') # добавив related_name для практ 3_1
     license_number = models.CharField(max_length=10)
     type = models.CharField(max_length=10, choices=LICENSE_TYPES)
     issue_date = models.DateField()
