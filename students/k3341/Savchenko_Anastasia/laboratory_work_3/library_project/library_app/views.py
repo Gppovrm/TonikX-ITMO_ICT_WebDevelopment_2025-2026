@@ -10,6 +10,7 @@ from .serializers import *
 # ============================================================================
 # 1. APIView классы (как в практической 3.2)
 # ============================================================================
+#  **`GET /api/reader/<int:pk>/books/`** (http://127.0.0.1:8000/api/reader/20/books/)
 
 class ReaderBooksAPIView(APIView):
     """1. Какие книги закреплены за заданным читателем?"""
@@ -31,7 +32,7 @@ class ReaderBooksAPIView(APIView):
 
             serializer = ReaderSerializer(reader)
             return Response({
-                'reader': serializer.data,
+                'reader': serializer.data,  # выведет все о пользователе
                 'books': books
             })
         except Reader.DoesNotExist:
@@ -52,8 +53,10 @@ class OverdueLoansAPIView(APIView):
         readers = []
         for loan in overdue_loans:
             readers.append({
+                'reader_id': loan.reader_id.reader_id,
                 'reader_name': loan.reader_id.full_name,
                 'book_title': loan.copy_book_id.book_id.title,
+                'copy_book_id': loan.copy_book_id.copy_book_id,
                 'issued_at': loan.issued_at,
                 'days_overdue': (date.today() - loan.issued_at).days
             })
@@ -65,31 +68,31 @@ class RareBooksReadersAPIView(APIView):
     """3. За кем из читателей закреплены редкие книги (≤2 экз.)?"""
 
     def get(self, request):
-        # Находим книги с ≤2 экземплярами
-        rare_books = []
-        all_books = Book.objects.all()
+        # Аннотируем книги количеством доступных экземпляров
+        rare_books = Book.objects.annotate(
+            available_copies=Count('copyofbook', filter=Q(
+                copyofbook__availability_status__in=['available', 'on_loan']
+            ))
+        ).filter(available_copies__lte=2)
 
-        for book in all_books:
-            copy_count = CopyOfBook.objects.filter(
-                book_id=book,
-                availability_status__in=['available', 'on_loan']
-            ).count()
+        readers = []
+        for book in rare_books:
+            # Получаем активные выдачи для этой книги
+            loans = LoanRecord.objects.filter(
+                copy_book_id__book_id=book,
+                returned_at__isnull=True
+            ).select_related('reader_id')
 
-            if copy_count <= 2:
-                # Находим читателей с этой книгой
-                loans = LoanRecord.objects.filter(
-                    copy_book_id__book_id=book,
-                    returned_at__isnull=True
-                ).select_related('reader_id')
+            for loan in loans:
+                readers.append({
+                    'reader_id': loan.reader_id.reader_id,
+                    'reader_name': loan.reader_id.full_name,
+                    'book_id': book.book_id,
+                    'book_title': book.title,
+                    'copy_count': book.available_copies  # аннотированное поле
+                })
 
-                for loan in loans:
-                    rare_books.append({
-                        'reader_name': loan.reader_id.full_name,
-                        'book_title': book.title,
-                        'copy_count': copy_count
-                    })
-
-        return Response({'readers_with_rare_books': rare_books})
+        return Response({'readers_with_rare_books': readers})
 
 
 class YoungReadersAPIView(APIView):
@@ -106,13 +109,14 @@ class YoungReadersAPIView(APIView):
         serializer = ReaderSerializer(young_readers, many=True)
         return Response({
             'count': young_readers.count(),
-            'readers': serializer.data
+            'readers': serializer.data  # для сокращения кода
         })
 
 
 class EducationStatsAPIView(APIView):
     """5. Процент читателей по образованию"""
 
+    # последовательно проходит все уровни образования Reader, подсчитывая колво читателей каждого уровня и вычисляя их процент от общего числа. Результат возвращается в виде списка с названием уровня образования, количеством читателей и рассчитанным процентом для каждого уровня.
     def get(self, request):
         total = Reader.objects.filter(is_active_member=True).count()
 
@@ -157,7 +161,7 @@ class ReaderListAPIView(generics.ListAPIView):
 
 
 class CopyOfBookListAPIView(generics.ListAPIView):
-    """Список экземпляров книг"""
+    """Список доступных экземпляров книг"""
     serializer_class = CopyOfBookSerializer
     queryset = CopyOfBook.objects.filter(availability_status='available')
 
