@@ -1,0 +1,1733 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://gppovrm.weblabs/laboratory_work_3/">
+      
+      
+        <link rel="prev" href="../laboratory_work_2/">
+      
+      
+        <link rel="next" href="../laboratory_work_4/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/penguin.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Лабораторная работа 3. Реализация серверной части на django rest. Документирование API. - WebLabs MkDocs Reports</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:300,300i,400,400i,700,700i%7CRed+Hat+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Merriweather Sans";--md-code-font:"Red Hat Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-django-rest-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="WebLabs MkDocs Reports" class="md-header__button md-logo" aria-label="WebLabs MkDocs Reports" data-md-component="logo">
+      
+  <img src="../assets/penguin.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            WebLabs MkDocs Reports
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Лабораторная работа 3. Реализация серверной части на django rest. Документирование API.
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="WebLabs MkDocs Reports" class="md-nav__button md-logo" aria-label="WebLabs MkDocs Reports" data-md-component="logo">
+      
+  <img src="../assets/penguin.png" alt="logo">
+
+    </a>
+    WebLabs MkDocs Reports
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Отчёты по лабораторным работам
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../laboratory_work_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 1. Работа с сокетами.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../laboratory_work_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 2. Реализация простого сайта на Django
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 3. Реализация серверной части на django rest. Документирование API.
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 3. Реализация серверной части на django rest. Документирование API.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проектирование БД в соот с ТЗ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Проектирование БД в соот с ТЗ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#book-copyofbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для книг (Book + CopyOfBook)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для читателей (Reader)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readinghall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для читальных залов (ReadingHall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для операций библиотекаря
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для отчетов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ограничения значений полей
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Реализация серверной части приложения средствами Django и Django REST Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Реализация серверной части приложения средствами Django и Django REST Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Реализация логики работы API средствами Django REST Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Реализация логики работы API средствами Django REST Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-31-4-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Использование методов сериализации (как в Практической 3.1, пункты 4-6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-apiview-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. APIView классы (из практической 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-generic-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Generic классы (из практической 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-django-orm-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Работа с Django ORM (из Практической 3.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Реализованные эндпоинты API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Реализованные эндпоинты API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-get-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Пять GET-запросов информации для библиотекаря:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-post-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Четыре POST-операции библиотекаря:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Дополнительные эндпоинты (не прописаны, но упомянуты в варианте):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Вспомогательные эндпоинты:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Архитектура приложения
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подключить регистрацию / авторизацию по токенам / вывод информации о текущем пользователе средствами Djoser.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подключить регистрацию / авторизацию по токенам / вывод информации о текущем пользователе средствами Djoser.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подключить регистрацию / авторизацию по токенам
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Получение токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запрос и получение информации о пользователе**
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../laboratory_work_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Лабораторная работа 4. Реализация клиентской части средствами Vue.js.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practical_work_3_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Отчет по практической работе №3.1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../practical_work_3_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Практическая работа №3.2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Цель
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Проектирование БД в соот с ТЗ
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Проектирование БД в соот с ТЗ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#book-copyofbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для книг (Book + CopyOfBook)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для читателей (Reader)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readinghall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для читальных залов (ReadingHall)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для операций библиотекаря
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Для отчетов
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ограничения значений полей
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#django-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Реализация серверной части приложения средствами Django и Django REST Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Реализация серверной части приложения средствами Django и Django REST Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Реализация логики работы API средствами Django REST Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Реализация логики работы API средствами Django REST Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-31-4-6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1. Использование методов сериализации (как в Практической 3.1, пункты 4-6)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-apiview-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2. APIView классы (из практической 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-generic-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3. Generic классы (из практической 3.2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-django-orm-31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4. Работа с Django ORM (из Практической 3.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Реализованные эндпоинты API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Реализованные эндпоинты API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-get-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1. Пять GET-запросов информации для библиотекаря:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-post-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2. Четыре POST-операции библиотекаря:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3. Дополнительные эндпоинты (не прописаны, но упомянуты в варианте):
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4. Вспомогательные эндпоинты:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Архитектура приложения
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#djoser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подключить регистрацию / авторизацию по токенам / вывод информации о текущем пользователе средствами Djoser.
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Подключить регистрацию / авторизацию по токенам / вывод информации о текущем пользователе средствами Djoser.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Подключить регистрацию / авторизацию по токенам
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Получение токена
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Запрос и получение информации о пользователе**
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Заключение
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="3-django-rest-api">Лабораторная работа 3. Реализация серверной части на django rest. Документирование API.</h1>
+<h2 id="_1">Цель</h2>
+<p>работы: овладеть практическими навыками реализации серверной части (backend) приложений средствами Django REST framework.</p>
+<details class="note">
+<summary>Вариант 2: Библиотека</summary>
+<p>Создать программную систему, предназначенную для работников библиотеки.
+Такая система должна обеспечивать хранение сведений об имеющихся в библиотеке
+книгах, о читателях библиотеки и читальных залах.</p>
+<p>Для каждой книги в БД должны храниться следующие сведения: название книги,
+автор (ы), издательство, год издания, раздел, число экземпляров этой книги в каждом зале
+библиотеки, а также шифр книги и дата закрепления книги за читателем. Книги могут
+перерегистрироваться в другом зале.</p>
+<p>Сведения о читателях библиотеки должны включать номер читательского билета,
+ФИО читателя, номер паспорта, дату рождения, адрес, номер телефона, образование,
+наличие ученой степени.</p>
+<p>Читатели закрепляются за определенным залом, могут переписаться в другой зал и
+могут записываться и выписываться из библиотеки.</p>
+<p>Библиотека имеет несколько читальных залов, которые характеризуются номером,
+названием и вместимостью, то есть количеством людей, которые могут одновременно
+работать в зале.</p>
+<p>Библиотека может получать новые книги и списывать старые. Шифр книги может
+измениться в результате переклассификации, а номер читательского билета в результате
+перерегистрации.</p>
+<p>Библиотекарю могут потребоваться следующие сведения о текущем состоянии
+библиотеки:</p>
+<ul>
+<li>Какие книги закреплены за заданным читателем?</li>
+<li>Кто из читателей взял книгу более месяца тому назад?</li>
+<li>За кем из читателей закреплены книги, количество экземпляров которых в
+  библиотеке не превышает 2?</li>
+<li>Сколько в библиотеке читателей младше 20 лет?</li>
+<li>Сколько читателей в процентном отношении имеют начальное образование,
+  среднее, высшее, ученую степень?</li>
+</ul>
+<p>Библиотекарь может выполнять следующие операции:</p>
+<ul>
+<li>Записать в библиотеку нового читателя.</li>
+<li>Исключить из списка читателей людей, записавшихся в библиотеку более года
+  назад и не прошедших перерегистрацию.</li>
+<li>Списать старую или потерянную книгу.</li>
+<li>Принять книгу в фонд библиотеки.</li>
+</ul>
+<p>Необходимо предусмотреть возможность выдачи отчета о работе библиотеки в
+течение месяца. Отчет должен включать в себя следующую информацию: количество
+книг и читателей на каждый день в каждом из залов и в библиотеке в целом, количество
+читателей, записавшихся в библиотеку в каждый зал и в библиотеку за отчетный месяц.</p>
+</details>
+<h2 id="_2">Проектирование БД в соот с ТЗ</h2>
+<p><img alt="WEB Бд.drawio (1).png" src="../assets/lab3/WEB%20%D0%91%D0%B4.drawio%20%281%29.png" /></p>
+<h3 id="book-copyofbook">Для книг (Book + CopyOfBook)</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Основные сведения о книгах</label><label for="__tabbed_1_2">Учет экземпляров и перемещение</label><label for="__tabbed_1_3">Операции с фондом</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Название книги</strong> - <code>Book.title</code></li>
+<li><strong>Автор(ы)</strong> - <code>Author</code> + <code>BookAuthor</code> (связь M:M)</li>
+<li><strong>Издательство</strong> - <code>Book.publisher</code></li>
+<li><strong>Год издания</strong> - <code>Book.publication_year</code></li>
+<li><strong>Раздел</strong> - <code>Book.section</code></li>
+<li><strong>Шифр книги</strong> - <code>Book.inventory_code</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Число экземпляров в каждом зале</strong> - считается через <code>CopyOfBook</code> по <code>book_id</code> и <code>hall_id</code></li>
+<li><strong>Книги могут перерегистрироваться в другом зале</strong> - изменение <code>CopyOfBook.hall_id</code></li>
+<li><strong>Шифр книги может измениться</strong> - изменение <code>Book.inventory_code</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Библиотека может получать новые книги</strong> - добавление в <code>Book</code> и <code>CopyOfBook</code></li>
+<li><strong>Списывать старые</strong> - <code>CopyOfBook.decommission_date</code> + <code>Book.is_in_catalog</code></li>
+<li><strong>Дата закрепления за читателем</strong> - <code>LoanRecord.issued_at</code></li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="reader">Для читателей (Reader)</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Персональные данные</label><label for="__tabbed_2_2">Образование и статус</label><label for="__tabbed_2_3">Изменения данных</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Номер читательского билета</strong> - <code>Reader.library_card_id</code></li>
+<li><strong>ФИО читателя</strong> - <code>Reader.full_name</code></li>
+<li><strong>Номер паспорта</strong> - <code>Reader.passport</code></li>
+<li><strong>Дата рождения</strong> - <code>Reader.birth_date</code></li>
+<li><strong>Адрес</strong> - <code>Reader.home_address</code></li>
+<li><strong>Номер телефона</strong> - <code>Reader.phone_number</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Образование, наличие ученой степени</strong> - <code>Reader.education_level</code></li>
+<li><strong>Закрепление за определенным залом</strong> - <code>Reader.hall_id</code></li>
+<li><strong>Могут записываться и выписываться</strong> - <code>Reader.is_active_member</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Могут переписаться в другой зал</strong> - изменение <code>Reader.hall_id</code></li>
+<li><strong>Номер читательского билета может измениться</strong> - изменение <code>Reader.library_card_id</code></li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="readinghall">Для читальных залов (ReadingHall)</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Характеристики залов</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Номер зала</strong> - <code>ReadingHall.hall_number</code></li>
+<li><strong>Название</strong> - <code>ReadingHall.name</code></li>
+<li><strong>Вместимость</strong> - <code>ReadingHall.capacity</code></li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="_3">Для операций библиотекаря</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Запросы о текущем состоянии</label><label for="__tabbed_4_2">Основные операции</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Какие книги закреплены за заданным читателем?</strong> - <code>LoanRecord</code> + <code>Book</code></li>
+<li><strong>Кто из читателей взял книгу более месяца тому назад?</strong> - <code>LoanRecord.issued_at</code></li>
+<li><strong>За кем из читателей закреплены редкие книги (≤2 экз.)?</strong> - <code>CopyOfBook</code> + <code>LoanRecord</code></li>
+<li><strong>Сколько читателей младше 20 лет?</strong> - <code>Reader.birth_date</code></li>
+<li><strong>Процент читателей по образованию</strong> - <code>Reader.education_level</code></li>
+</ul>
+</div>
+<div class="tabbed-block">
+<ul>
+<li><strong>Записать нового читателя</strong> - INSERT в <code>Reader</code></li>
+<li><strong>Исключить неактивных</strong> - <code>Reader.last_registration_at</code> &gt; 1 года</li>
+<li><strong>Списать книгу</strong> - <code>CopyOfBook.decommission_date</code></li>
+<li><strong>Принять книгу в фонд</strong> - INSERT в <code>Book</code>/<code>CopyOfBook</code></li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="_4">Для отчетов</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Статистика и учет</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ul>
+<li><strong>Количество книг и читателей по залам</strong> - <code>CopyOfBook</code> + <code>Reader</code> + <code>ReadingHall</code></li>
+<li><strong>Количество читателей, записавшихся за месяц</strong> - <code>Reader.first_registered_at</code></li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="_5">Ограничения значений полей</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:3"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">CopyOfBook.availability_status</label><label for="__tabbed_6_2">CopyOfBook.copy_condition</label><label for="__tabbed_6_3">Reader.education_level</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Возможные значения:
+- <code>available</code> - доступен
+- <code>on_loan</code> - выдан
+- <code>reserved</code> - зарезервирован
+- <code>decommissioned</code> - списан</p>
+</div>
+<div class="tabbed-block">
+<p>Возможные значения:
+- <code>excellent</code> - отличное
+- <code>good</code> - хорошее
+- <code>fair</code> - удовлетворительное
+- <code>poor</code> - плохое
+- <code>damaged</code> - поврежден</p>
+</div>
+<div class="tabbed-block">
+<p>Возможные значения:
+- <code>primary</code> - начальное
+- <code>secondary</code> - среднее
+- <code>higher</code> - высшее
+- <code>degree</code> - ученая степень</p>
+</div>
+</div>
+</div>
+<h2 id="django-django-rest-framework">Реализация серверной части приложения средствами Django и Django REST Framework</h2>
+<h3 id="1-api-django-rest-framework">1. Реализация логики работы API средствами Django REST Framework</h3>
+<h4 id="11-31-4-6">1.1. Использование методов сериализации (как в Практической 3.1, пункты 4-6)</h4>
+<p>Для преобразования данных моделей Django в формат JSON и обратно были использованы сериализаторы Django REST Framework:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># serializers.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">serializers</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">.models</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">AuthorSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Author</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">BookSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Book</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReaderSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n">model</span> <span class="o">=</span> <span class="n">Reader</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>        <span class="n">read_only_fields</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>            <span class="s1">&#39;library_card_id&#39;</span><span class="p">,</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>            <span class="s1">&#39;first_registered_at&#39;</span><span class="p">,</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>            <span class="s1">&#39;reader_id&#39;</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>        <span class="p">]</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        <span class="n">extra_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>            <span class="s1">&#39;is_active_member&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Объяснение:</strong>
+- Использован <code>ModelSerializer</code> для автоматической генерации полей на основе модели
+- <code>fields = '__all__'</code> включает все поля модели в сериализацию
+- <code>read_only_fields</code> определяет поля, которые нельзя изменять через API
+- <code>extra_kwargs</code> позволяет задать дополнительные параметры для полей</p>
+<h4 id="12-apiview-32">1.2. APIView классы (из практической 3.2)</h4>
+<p>Для реализации сложной бизнес-логики были использованы классы <code>APIView</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># views.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIView</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">ReaderBooksAPIView</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;1. Какие книги закреплены за заданным читателем?&quot;&quot;&quot;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>            <span class="n">reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            <span class="n">loans</span> <span class="o">=</span> <span class="n">LoanRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">reader_id</span><span class="o">=</span><span class="n">reader</span><span class="p">,</span> <span class="n">returned_at__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>            <span class="c1"># ... обработка данных</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>                <span class="s1">&#39;reader&#39;</span><span class="p">:</span> <span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>                <span class="s1">&#39;books&#39;</span><span class="p">:</span> <span class="n">books</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            <span class="p">})</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>        <span class="k">except</span> <span class="n">Reader</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            <span class="k">return</span> <span class="n">Response</span><span class="p">({</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Reader not found&#39;</span><span class="p">})</span>
+</span></code></pre></div>
+<p><strong>Объяснение:</strong>
+- <code>APIView</code> предоставляет гибкий способ создания представлений
+- Методы <code>get()</code>, <code>post()</code> соответствуют HTTP-методам
+- Используется <code>Response</code> для возврата данных в формате JSON
+- Обработка исключений обеспечивает надежность API</p>
+<h4 id="13-generic-32">1.3. Generic классы (из практической 3.2)</h4>
+<p>Для стандартных операций CRUD использованы Generic классы:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework</span><span class="w"> </span><span class="kn">import</span> <span class="n">generics</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">BookListAPIView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListAPIView</span><span class="p">):</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Список книг&quot;&quot;&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">BookSerializer</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Book</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_in_catalog</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">RegisterReaderAPIView</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">CreateAPIView</span><span class="p">):</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;6. Зарегистрировать нового читателя&quot;&quot;&quot;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ReaderSerializer</span>
+</span></code></pre></div>
+<p><strong>Объяснение:</strong>
+- <code>ListAPIView</code> для получения списка объектов
+- <code>CreateAPIView</code> для создания новых объектов
+- Минимальный код + автоматическая валидация и сериализация данных</p>
+<h4 id="14-django-orm-31">1.4. Работа с Django ORM (из Практической 3.1)</h4>
+<p>Для выполнения запросов к базе данных использованы методы Django ORM:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Примеры запросов из разных эндпоинтов:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Фильтрация с Q-объектами</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">books</span> <span class="o">=</span> <span class="n">CopyOfBook</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">hall_id</span><span class="o">=</span><span class="n">hall</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">received_date__lte</span><span class="o">=</span><span class="n">current</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">Q</span><span class="p">(</span><span class="n">decommission_date__lte</span><span class="o">=</span><span class="n">current</span><span class="p">)</span> <span class="o">|</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">Q</span><span class="p">(</span><span class="n">availability_status</span><span class="o">=</span><span class="s1">&#39;decommissioned&#39;</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># Агрегация и аннотация</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">for</span> <span class="n">level_code</span><span class="p">,</span> <span class="n">level_name</span> <span class="ow">in</span> <span class="n">Reader</span><span class="o">.</span><span class="n">EDUCATION_CHOICES</span><span class="p">:</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">count</span> <span class="o">=</span> <span class="n">Reader</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="n">education_level</span><span class="o">=</span><span class="n">level_code</span><span class="p">,</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="n">is_active_member</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="n">percentage</span> <span class="o">=</span> <span class="p">(</span><span class="n">count</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1"># Сложные цепочки фильтров</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="n">overdue_loans</span> <span class="o">=</span> <span class="n">LoanRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">issued_at__lt</span><span class="o">=</span><span class="n">month_ago</span><span class="p">,</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    <span class="n">returned_at__isnull</span><span class="o">=</span><span class="kc">True</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Объяснение:</strong>
+- Использованы <code>filter()</code>, <code>exclude()</code> для выборки данных
+- Применены Q-объекты для сложных условий
+- Агрегация (<code>count()</code>, <code>sum()</code>) для статистических вычислений
+- Цепочки методов для построения сложных запросов</p>
+<h3 id="2-api">2. Реализованные эндпоинты API</h3>
+<h4 id="21-get-">2.1. Пять GET-запросов информации для библиотекаря:</h4>
+<ol>
+<li><strong><code>GET /api/reader/&lt;int:pk&gt;/books/</code></strong> (http://127.0.0.1:8000/api/reader/20/books/) - <strong>1. Какие книги закреплены за заданным читателем?</strong></li>
+</ol>
+<p>Дополнительно исп. серриализатор для вывода всей инфы о читателе.</p>
+<details class="info">
+<summary>Ответ</summary>
+<p>{
+    "reader": {
+        "reader_id": 18,
+        "library_card_id": "Б-26-0001",
+        "full_name": "Иванов Иван Иванович",
+        "birth_date": "2000-05-15",
+        "education_level": "higher",
+        "passport": "1234 567890",
+        "phone_number": "+7 (123) 456-78-90",
+        "home_address": "г. Москва, ул. Ленина, д. 1",
+        "is_active_member": true,
+        "first_registered_at": "2026-02-04",
+        "last_registration_at": "2025-08-08",
+        "hall_id": 12
+    },
+    "books": [
+        {
+            "title": "Война и мир",
+            "author": "Лев Толстой",
+            "issued_at": "2026-01-01",
+            "due_date": "2026-01-25"
+        },
+        {
+            "title": "Война и мир",
+            "author": "Лев Толстой",
+            "issued_at": "2026-01-10",
+            "due_date": "2026-02-14"
+        }
+    ]
+}</p>
+</details>
+<ol>
+<li><strong><code>GET /api/loans/overdue/</code></strong> (http://127.0.0.1:8000/api/loans/overdue/) - <strong>2. Кто из читателей взял книгу более месяца тому назад?</strong></li>
+</ol>
+<p>Выведет читателя и его id с просроченными книгами (+ id экземпляра)</p>
+<details class="info">
+<summary>Ответ</summary>
+<p>{
+    "overdue_readers": [
+        {
+            "reader_id": 18,
+            "reader_name": "Иванов Иван Иванович",
+            "book_title": "Война и мир",
+            "issued_at": "2026-01-01",
+            "days_overdue": 34
+        },
+        {
+            "reader_id": 23,
+            "reader_name": "Смирнов Дмитрий Петрович",
+            "book_title": "Анна Каренина",
+            "issued_at": "2025-12-20",
+            "days_overdue": 46
+        }
+    ]
+}</p>
+</details>
+<ol>
+<li><strong><code>GET /api/readers/rare-books/</code></strong> (http://127.0.0.1:8000/api/readers/rare-books/) - <strong>3. За кем из читателей закреплены редкие книги (≤2 экз.)?</strong></li>
+</ol>
+<p>Сначала находим все книги с двумя или меньше доступными экземплярами, аннотируя каждую книгу количеством её копий. Затем для каждой такой редкой книги находим читателей, у которых есть активные выдачи этих книг, и возвращаем информацию о них.</p>
+<ol>
+<li><strong><code>GET /api/readers/young/</code></strong> (http://127.0.0.1:8000/api/readers/young/) - <strong>4. Сколько в библиотеке читателей младше 20 лет?</strong></li>
+</ol>
+<p>Через фильтрацию по дате рождения и возвращает их <strong>количество</strong> вместе с детальной информацией в сериализованном виде.</p>
+<details class="info">
+<summary>Код</summary>
+<p>class YoungReadersAPIView(APIView):
+    """4. Сколько в библиотеке читателей младше 20 лет?"""</p>
+<div class="language-text highlight"><pre><span></span><code>def get(self, request):
+    twenty_years_ago = date.today() - timedelta(days=20 * 365)
+
+    young_readers = Reader.objects.filter(
+        birth_date__gt=twenty_years_ago,
+        is_active_member=True
+    )
+
+    serializer = ReaderSerializer(young_readers, many=True)
+    return Response({
+        &#39;count&#39;: young_readers.count(),
+        &#39;readers&#39;: serializer.data # для сокращения кода
+    })
+</code></pre></div>
+</details>
+<ol>
+<li><strong><code>GET /api/stats/education/</code></strong> (http://127.0.0.1:8000/api/stats/education/) - <strong>5. Сколько читателей в процентном отношении имеют начальное образование, среднее, высшее, ученую степень?</strong></li>
+</ol>
+<details class="info">
+<summary>Ответ</summary>
+<p>{
+    "total_readers": 5,
+    "stats": [
+        {
+            "education": "Начальное",
+            "count": 2,
+            "percentage": 40.0
+        },
+        {
+            "education": "Среднее",
+            "count": 0,
+            "percentage": 0.0
+        },
+        {
+            "education": "Высшее",
+            "count": 3,
+            "percentage": 60.0
+        },
+        {
+            "education": "Ученая степень",
+            "count": 0,
+            "percentage": 0.0
+        }
+    ]
+}</p>
+</details>
+<h4 id="22-post-">2.2. Четыре POST-операции библиотекаря:</h4>
+<ol>
+<li><strong><code>POST /api/reader/register/</code></strong> (http://127.0.0.1:8000/api/reader/register/) - <strong>6. Записать в библиотеку нового читателя</strong></li>
+</ol>
+<p><img alt="5.png" src="../assets/lab3/5.png" /></p>
+<ol>
+<li>
+<p><strong><code>POST /api/readers/remove-inactive/</code></strong> (http://127.0.0.1:8000/api/readers/remove-inactive/) - <strong>7. Исключить из списка читателей людей, записавшихся в библиотеку более года назад и не прошедших перерегистрацию</strong></p>
+</li>
+<li>
+<p><strong><code>POST /api/books/decommission/</code></strong> (http://127.0.0.1:8000/api/books/decommission/) - <strong>8. Списать старую или потерянную книгу</strong></p>
+</li>
+</ol>
+<p>Для удаления нужно ввести id экземпляра (через браузер {"copy_id": 64}). В случае если книга в данный момент выдана вернется исключение. </p>
+<p><img alt="img_1.png" src="../assets/lab3/img_1.png" /></p>
+<ol>
+<li><strong><code>POST /api/books/add/</code></strong> (http://127.0.0.1:8000/api/books/add/) - <strong>9. Принять книгу в фонд библиотеки</strong></li>
+</ol>
+<h4 id="23">2.3. Дополнительные эндпоинты (не прописаны, но упомянуты в варианте):</h4>
+<ol>
+<li>
+<p><strong><code>GET /api/reports/monthly/</code></strong> (http://127.0.0.1:8000/api/reports/monthly/) - <strong>Отчет о работе библиотеки за месяц</strong></p>
+</li>
+<li>
+<p><strong><code>POST /api/copies/transfer-hall/</code></strong> (http://127.0.0.1:8000/api/copies/transfer-hall/) - <strong>Перемещение книги между залами</strong> (Книги могут перерегистрироваться в другом зале)</p>
+</li>
+</ol>
+<p><img alt="1.png" src="../assets/lab3/1.png" />
+<img alt="2.png" src="../assets/lab3/2.png" />
+<img alt="3.png" src="../assets/lab3/3.png" /></p>
+<ol>
+<li><strong><code>POST /api/books/&lt;int:pk&gt;/update-code/</code></strong> (http://127.0.0.1:8000/api/books/20/update-code/) - <strong>Изменение шифра книги</strong> (Шифр книги может измениться в результате переклассификации)</li>
+</ol>
+<p><img alt="4.png" src="../assets/lab3/4.png" /></p>
+<h4 id="24">2.4. Вспомогательные эндпоинты:</h4>
+<ol>
+<li><strong><code>GET /api/books/</code></strong> (http://127.0.0.1:8000/api/books/) - Список всех книг в каталоге</li>
+<li><strong><code>GET /api/readers/</code></strong> (http://127.0.0.1:8000/api/readers/) - Список активных читателей</li>
+<li><strong><code>GET /api/copies/</code></strong> (http://127.0.0.1:8000/api/copies/) - Список доступных экземпляров книг</li>
+</ol>
+<h3 id="3">3. Архитектура приложения</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>library_project/
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── library_app/
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│   ├── models.py          # Модели данных
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>│   ├── serializers.py     # Сериализаторы DRF
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>│   ├── views.py          # Представления (APIView + Generic)
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>│   └── urls.py           # Маршрутизация API
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>├── library_project/
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│   ├── settings.py       # Настройки Django + DRF + Djoser
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│   └── urls.py          # Основные URL-маршруты
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>└── db.sqlite3           # База данных
+</span></code></pre></div>
+<h2 id="djoser">Подключить регистрацию / авторизацию по токенам / вывод информации о текущем пользователе средствами Djoser.</h2>
+<h3 id="_6">Подключить регистрацию / авторизацию по токенам</h3>
+<div class="language-py highlight"><span class="filename">settings.py</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="o">...</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="s1">&#39;djoser&#39;</span><span class="p">,</span>  <span class="c1"># подкл djoser пункт 5</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="s1">&#39;rest_framework.authtoken&#39;</span><span class="p">,</span>  <span class="c1"># покл авторизацию по токенам</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<div class="language-py highlight"><span class="filename">usrl.py</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="o">...</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;auth/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;djoser.urls&#39;</span><span class="p">)),</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;auth/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;djoser.urls.authtoken&#39;</span><span class="p">)),</span> <span class="c1"># покл url адреса для работы с токенами</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<p><img alt="djoser_user.png" src="../assets/lab3/djoser_user.png" /></p>
+<h3 id="_7">Получение токена</h3>
+<p>Эндпойнт /auth/token/login/ (Token Based Authentication)</p>
+<p><img alt="success_auth_token .png" src="../assets/lab3/success_auth_token%20.png" /></p>
+<h3 id="_8">Запрос и получение информации о пользователе**</h3>
+<p>Для того чтобы показать серверу, что мы именно этот user нужно отправить ему полученный токен серверу вместе с запросом который выполняем</p>
+<p><img alt="token_user_info.png" src="../assets/lab3/token_user_info.png" /></p>
+<h2 id="_9">Заключение</h2>
+<p>Эта лабораторная работа позволила применить знания из практических работ и реализовать серверную часть приложения для библиотеки средствами Django. Была создана модель базы данных согласно варианту, и на её основе, а также по заданиям из варианта, были реализованы требуемые эндпоинты: некоторые из них были простыми (generic), логику других пришлось разрабатывать отдельно. Также я познакомилась с инструментом тестирования API Postman. Запросы я в основном тестировала в браузере, но потом попробовала и через Postman. Кроме того, с его помощью была настроена регистрация и получение токена средствами djoser.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../laboratory_work_2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Лабораторная работа 2. Реализация простого сайта на Django">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Лабораторная работа 2. Реализация простого сайта на Django
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../laboratory_work_4/" class="md-footer__link md-footer__link--next" aria-label="Next: Лабораторная работа 4. Реализация клиентской части средствами Vue.js.">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Лабораторная работа 4. Реализация клиентской части средствами Vue.js.
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Anastasia Savchenko
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://t.me/Gppovrm" target="_blank" rel="noopener" title="t.me" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm4.962 7.224c.1-.002.321.023.465.14a.5.5 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024q-.159.037-5.061 3.345-.72.495-1.302.48c-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789q.04-.324.893-.663 5.247-2.286 6.998-3.014c3.332-1.386 4.025-1.627 4.476-1.635"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://leetcode.com/u/gpp_ovrm/" target="_blank" rel="noopener" title="leetcode.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.483 0a1.37 1.37 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.3 5.3 0 0 0-1.209 2.104 5 5 0 0 0-.125.513 5.5 5.5 0 0 0 .062 2.362 6 6 0 0 0 .349 1.017 5.9 5.9 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.38 1.38 0 0 0-1.951-.003l-2.396 2.392a3.02 3.02 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.7 2.7 0 0 1 .066-.523 2.55 2.55 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0m-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.footer"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
